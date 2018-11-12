@@ -19,8 +19,9 @@ namespace AutofacOnFunctions.Samples.NetStandard.Services.Functions
             ITestIt testIt
         )
         {
-            logger.LogInformation("C# HTTP trigger function processed a request.");
-            return new OkObjectResult($"Hello. Dependency injection sample returns '{testIt.CallMe()}'");
+            logger.LogInformation("<<<<Start Trigger>>>>>");
+            testIt.CallMe();
+            return new OkObjectResult($"Dependency injection sample returns");
         }
     }
 }

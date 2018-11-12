@@ -1,24 +1,35 @@
-﻿using System;
+﻿using Autofac;
 using Microsoft.Extensions.Logging;
+using System;
 
 namespace AutofacOnFunctions.Samples.NetStandard.Services.Functions
 {
     public class PerDependency : IPerDependency
     {
+        private readonly string _myGuid;
         private readonly ILogger _logger;
-        private readonly Guid _myGuid;
+        private readonly ILifetimeScope _lifetimeScope;
+        private readonly IPerLifetimeScope _perLifetimeScope;
 
-        public PerDependency(ILogger logger)
+        public PerDependency
+        (
+            ILogger logger
+            , ILifetimeScope lifetimeScope
+            , IPerLifetimeScope perLifetimeScope
+        )
         {
+            _myGuid = Guid.NewGuid().ToString().Split('-')[0];
             _logger = logger;
-            _logger.LogWarning("PerDependency - " + Guid.NewGuid().ToString().Split('-')[0]);
-            _myGuid = Guid.NewGuid();
+            _lifetimeScope = lifetimeScope;
+            _perLifetimeScope = perLifetimeScope;
+            _logger.LogError($"PerDependency - ctor - {_myGuid}");
         }
 
         public string CallMe()
         {
-            _logger.LogCritical("PerDependency - CallMe");
-            return $"From PerDependency ==> myGuid: {_myGuid}\n";
+            _logger.LogError($"PerDependency - CallMe - {_myGuid}");
+            _perLifetimeScope.CallMe();
+            return "";
         }
     }
 }
