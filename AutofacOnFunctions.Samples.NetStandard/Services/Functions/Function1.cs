@@ -12,11 +12,15 @@ namespace AutofacOnFunctions.Samples.NetStandard.Services.Functions
     {
         [FunctionName("Function1")]
         public static IActionResult Run([HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequest req, [Inject] ITestIt testit,
-            [Inject] ILogger logger)
+            HttpRequest request
+            , [Inject]
+            ILogger logger
+            , [Inject]
+            ITestIt testIt
+        )
         {
             logger.LogInformation("C# HTTP trigger function processed a request.");
-            return new OkObjectResult($"Hello. Dependency injection sample returns '{testit.CallMe()}'");
+            return new OkObjectResult($"Hello. Dependency injection sample returns '{testIt.CallMe()}'");
         }
     }
 }

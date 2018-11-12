@@ -8,7 +8,9 @@ namespace AutofacOnFunctions.Samples.NetStandard.Services.Modules
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<TestIt>().As<ITestIt>();
-
+            builder.RegisterType<PerDependency>().As<IPerDependency>().InstancePerDependency();
+            builder.RegisterType<PerLifetimeScope>().As<IPerLifetimeScope>().InstancePerLifetimeScope();
+            builder.RegisterType<PerSingleInstance>().As<IPerSingleInstance>().SingleInstance();
             builder.RegisterType<TestItByName>().Named<ITestItByName>("registration1");
             builder.RegisterType<TestItByName>().Named<ITestItByName>("registration2");
         }
